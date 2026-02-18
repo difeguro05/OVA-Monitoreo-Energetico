@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVA: Monitoreo Energetico</title>
+    
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="img/logo2.png">
+</head>
+<body>
+    <div class="background-grid"></div>
+    
+    <header class="main-header">
+        <div class="header-content">
+            
+            <div class="logo-section">
+                <img src="img/logo.png" alt="OVA Logo" class="header-logo">
+                <div class="header-titles">
+                    <h1 class="site-title">SISTEMA DE MONITOREO ENERGÉTICO</h1>
+                    <span class="dev-by">Developed by: D Gutierrez - JP Alvarez</span>
+                </div>
+            </div>
+
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">V.1.0 ONLINE</span>
+            </div>
+
+            <div class="uni-container">
+                 <img src="img/logo_u.png" alt="Logo Universidad" class="uni-logo">
+            </div>
+
+        </div>
+    </header>
+
+    <input type="radio" name="main-view" id="view-intro" checked>
+    <input type="radio" name="main-view" id="view-system">
+
+    <nav class="top-nav">
+        <label for="view-intro" class="nav-btn">00. INTRODUCCIÓN</label>
+        <label for="view-system" class="nav-btn">01. SISTEMA TÉCNICO</label>
+    </nav>
+
+    <main class="view-content" id="content-intro">
+        <div class="container intro-container">
+            <section class="hero-section">
+                <h2 class="main-title">Infraestructura de Medición Inteligente</h2>
+                <p class="subtitle">Plataforma educativa para el análisis y gestión de activos eléctricos.</p>
+                <div class="intro-grid">
+                    <div class="info-card">
+                        <h4>Objetivo</h4>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem;">Monitorear variables físicas (V, I, P) en tiempo real.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Alcance</h4>
+                        <ul style="color:var(--text-secondary); margin-top:0.5rem; padding-left:1.2rem;">
+                            <li><strong>Hardware:</strong> Sensores y ESP32.</li>
+                            <li><strong>Integración:</strong> Hardware y software.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-container">
+                    <label for="view-system" class="cta-button">INICIAR SISTEMA &rarr;</label>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <main class="view-content" id="content-system">
+        
+        <nav class="sub-nav-container">
+            <div class="sub-nav">
+                <button class="sub-nav-item active" data-target="section-dev">Dispositivos</button>
+                <button class="sub-nav-item" data-target="section-cir">Circuito</button>
+                <button class="sub-nav-item" data-target="section-cod">Código</button>
+                <button class="sub-nav-item" data-target="section-dat">Data</button>
+                <div class="slider-line"></div>
+            </div>
+        </nav>
+
+        <div class="carousel-container" id="mainCarousel">
+            
+            <section class="carousel-slide" id="section-dev">
+                <div class="slide-content">
+                    <div class="section-header"><h3>01. Hardware de Control</h3><div class="header-line"></div></div>
+                    <div class="sensors-grid four-columns">
+                        <div class="sensor-card">
+                            <div class="sensor-info"><span class="sensor-badge">ZMPT101B</span><h4>Voltaje AC</h4></div>
+                            <div class="model-container">
+                                <model-viewer src="3dmodels/Voltage_Sensor/VTsensor(ZMPT101B) v4.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                            </div>
+                        </div>
+
+                        <div class="sensor-card">
+                            <div class="sensor-info"><span class="sensor-badge">ACS712</span><h4>Corriente</h4></div>
+                            <div class="model-container">
+                                <model-viewer src="3dmodels/Current_Sensor/acs712.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                            </div>
+                        </div>
+
+                        <div class="selection-wrapper">
+                            <div class="selection-cards">
+                                <div class="sensor-card mcu-card">
+                                    <div class="sensor-info"><span class="sensor-badge">ESP32</span><h4>WROOM-32</h4></div>
+                                    <div class="model-container">
+                                        <model-viewer src="3dmodels/Mcu/esp32.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                    </div>
+                                </div>
+
+                                <div class="sensor-card mcu-card">
+                                    <div class="sensor-info"><span class="sensor-badge">Arduino</span><h4>UNO</h4></div>
+                                    <div class="model-container">
+                                        <model-viewer src="3dmodels/Mcu/arduino.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="selection-alert">
+                                 SELECCIONAR SOLO UNO PARA LA IMPLEMENTACIÓN
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="carousel-slide" id="section-cir">
+                <div class="slide-content">
+                    <div class="section-header"><h3>02. Esquemático</h3><div class="header-line"></div></div>
+                    <div class="sensors-grid">
+                        <div class="sensor-card">
+                            <div class="sensor-info"><span class="sensor-badge">SPI</span><h4>Módulo SD</h4></div>
+                            <div class="model-container"><model-viewer src="3dmodels/Modules/micro_SD.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer></div>
+                        </div>
+                        <div class="sensor-card diagram-card">
+                            <div class="sensor-info"><h4>Diagrama de Conexiones</h4></div>
+                            <div class="diagram-placeholder"><span>[IMAGEN DEL CIRCUITO]</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="carousel-slide" id="section-cod">
+                <div class="slide-content">
+                    <div class="section-header"><h3>03. Algoritmo C++</h3><div class="header-line"></div></div>
+                    <div class="code-window">
+                        <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">firmware.cpp</span></div>
+                        <pre class="code-block"><code>
+void loop() {
+    float v = getVoltageRMS();
+    Serial.println(v);
+    delay(100);
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="carousel-slide" id="section-dat">
+                <div class="slide-content dashboard-container">
+                    <div class="dashboard-header"><h2 class="dashboard-title">Telemetría</h2></div>
+                    <div class="kpi-grid">
+                        <div class="kpi-card voltage-card"><span class="kpi-label">Voltaje</span><div class="kpi-value">120.3<span class="kpi-unit">V</span></div></div>
+                        <div class="kpi-card current-card"><span class="kpi-label">Corriente</span><div class="kpi-value">2.48<span class="kpi-unit">A</span></div></div>
+                        <div class="kpi-card power-card"><span class="kpi-label">Potencia</span><div class="kpi-value">283.2<span class="kpi-unit">W</span></div></div>
+                    </div>
+                    <div class="chart-section">
+                        <div class="chart-container">
+                             <svg class="waveform" viewBox="0 0 1200 300" preserveAspectRatio="none">
+                                <path class="wave-path" d="M 0,150 Q 50,50 100,150 T 200,150 T 300,150 T 400,150 T 500,150 T 600,150 T 700,150 T 800,150 T 900,150 T 1000,150 T 1100,150 T 1200,150" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('mainCarousel');
+            const navButtons = document.querySelectorAll('.sub-nav-item');
+            const sliderLine = document.querySelector('.slider-line');
+            const sections = document.querySelectorAll('.carousel-slide');
+
+            function moveLineTo(targetButton) {
+                if (!targetButton) return;
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                targetButton.classList.add('active');
+                const parentRect = targetButton.parentElement.getBoundingClientRect();
+                const btnRect = targetButton.getBoundingClientRect();
+                const left = btnRect.left - parentRect.left;
+                const width = btnRect.width;
+                sliderLine.style.transform = `translateX(${left}px)`;
+                sliderLine.style.width = `${width}px`;
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    moveLineTo(btn);
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                });
+            });
+
+            const observerOptions = { root: container, threshold: 0.6 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        const correspondingButton = document.querySelector(`.sub-nav-item[data-target="${id}"]`);
+                        moveLineTo(correspondingButton);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+            setTimeout(() => moveLineTo(navButtons[0]), 200);
+            window.addEventListener('resize', () => {
+                const activeBtn = document.querySelector('.sub-nav-item.active');
+                if(activeBtn) moveLineTo(activeBtn);
+            });
+        });
+    </script>
+</body>
+</html>
