@@ -1,0 +1,325 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-primary: #0f1115;
+    --bg-secondary: #1a1d23;
+    --bg-card: #16191e;
+    --accent-primary: #3b82f6;
+    --accent-alert: #ef4444;   /* ROJO */
+    --accent-success: #10b981;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --border-color: #2d3139;
+    --font-main: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.background-grid {
+    position: fixed; inset: 0;
+    background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+    background-size: 30px 30px; opacity: 0.2; z-index: -1;
+}
+
+/* =========================================
+   2. HEADER (IZQUIERDA - CENTRO - DERECHA)
+   ========================================= */
+.main-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 2rem;
+    flex-shrink: 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Necesario para el centrado absoluto del status */
+}
+
+/* --- IZQUIERDA: Logo App + Títulos --- */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-logo {
+    height: 38px;
+    width: auto;
+    display: block;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.site-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dev-by {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    text-transform: uppercase;
+}
+
+/* --- CENTRO: Status Indicator --- */
+.status-indicator {
+    position: absolute; /* Centrado absoluto perfecto */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border: 1px solid var(--accent-success);
+    border-radius: 2px;
+    background: rgba(16, 185, 129, 0.05); /* Fondo verde muy sutil */
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-success);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--accent-success); /* Brillo */
+}
+
+.status-text {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-success);
+    font-weight: 600;
+}
+
+/* --- DERECHA: Logo Universidad --- */
+.uni-container {
+    display: flex;
+    align-items: center;
+}
+
+.uni-logo {
+    height: 60px;
+    width: auto;
+    opacity: 0.9;
+}
+
+/* =========================================
+   3. NAVEGACIÓN PRINCIPAL
+   ========================================= */
+input[name="main-view"] { display: none; }
+
+.top-nav {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+}
+
+.nav-btn {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.nav-btn:hover { color: var(--text-primary); }
+
+#view-intro:checked ~ .top-nav label[for="view-intro"],
+#view-system:checked ~ .top-nav label[for="view-system"] {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+/* =========================================
+   4. CONTROL DE VISTAS
+   ========================================= */
+.view-content {
+    display: none;
+    flex-grow: 1;
+    overflow-y: auto;
+    animation: fadeIn 0.4s ease;
+}
+
+#view-intro:checked ~ #content-intro,
+#view-system:checked ~ #content-system {
+    display: block;
+}
+
+#view-system:checked ~ #content-system {
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Intro */
+.intro-container { max-width: 900px; margin: 0 auto; padding: 4rem 1rem; text-align: center; }
+.main-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; font-family: 'Orbitron', sans-serif; }
+.subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+.intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; text-align: left; }
+.cta-container { margin-top: 3rem; }
+.cta-button { display: inline-block; padding: 1rem 3rem; background: var(--accent-primary); color: white; font-family: var(--font-mono); cursor: pointer; border-radius: 4px; }
+
+/* =========================================
+   5. SISTEMA: SUB-NAVEGACIÓN
+   ========================================= */
+.sub-nav-container { background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 0 1rem; flex-shrink: 0; }
+.sub-nav { display: flex; gap: 2rem; justify-content: center; max-width: 800px; margin: 0 auto; position: relative; }
+
+.sub-nav-item {
+    background: none; border: none;
+    padding: 1rem 0.5rem; cursor: pointer;
+    font-family: var(--font-mono); font-size: 0.9rem;
+    color: var(--text-secondary); transition: color 0.3s;
+}
+
+.sub-nav-item:hover { color: var(--text-primary); }
+.sub-nav-item.active { color: var(--accent-alert); font-weight: 700; }
+
+.slider-line {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: var(--accent-alert);
+    transition: all 0.3s ease-out;
+    width: 0;
+}
+
+/* =========================================
+   6. SISTEMA: CARRUSEL
+   ========================================= */
+.carousel-container {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none; scrollbar-width: none;
+}
+.carousel-container::-webkit-scrollbar { display: none; }
+
+.carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.slide-content { max-width: 1200px; margin: 0 auto; padding-bottom: 3rem; }
+
+/* =========================================
+   7. COMPONENTES
+   ========================================= */
+.sensors-grid, .kpi-grid { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
+.four-columns { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.kpi-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.sensor-card, .kpi-card, .info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+.header-line { flex: 1; height: 1px; background: var(--border-color); }
+.sensor-badge { background: var(--border-color); font-family: var(--font-mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 2px; }
+
+.model-container {
+    width: 100%; height: 250px;
+    background: #0a0c10;
+    border: 1px solid var(--border-color);
+    margin-top: 15px; border-radius: 4px;
+}
+model-viewer { width: 100%; height: 100%; }
+
+.code-window { background: #1e1e1e; border-radius: 6px; border: 1px solid var(--border-color); font-family: var(--font-mono); }
+.code-header { background: #252526; padding: 10px 15px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #333; }
+.dot { width: 10px; height: 10px; border-radius: 50%; } .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+.code-block { padding: 20px; color: #d4d4d4; font-size: 0.9rem; overflow-x: auto; }
+
+.kpi-value { font-family: var(--font-mono); font-size: 2rem; font-weight: 600; margin: 0.5rem 0; }
+.kpi-unit { font-size: 1rem; color: var(--text-secondary); }
+.chart-container { background: var(--bg-card); border: 1px solid var(--border-color); height: 300px; padding: 1rem; }
+.waveform { width: 100%; height: 100%; opacity: 0.8; }
+.diagram-placeholder { width: 100%; height: 250px; background: rgba(255,255,255,0.03); border: 2px dashed var(--border-color); display: flex; justify-content: center; align-items: center; color: var(--text-secondary); font-family: var(--font-mono); }
+
+.selection-wrapper {
+    grid-column: span 2;
+    border: 2px dashed var(--accent-alert);
+    border-radius: 12px;
+    padding: 1rem;
+    background: rgba(239, 68, 68, 0.05);
+    display: flex; flex-direction: column; gap: 1rem;
+}
+.selection-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.mcu-card { border: 1px solid var(--border-color); background: var(--bg-card); height: 100%; }
+.selection-alert {
+    text-align: center; font-family: var(--font-mono); font-size: 0.75rem;
+    color: var(--accent-alert); font-weight: 700; letter-spacing: 1px;
+    background: rgba(15, 17, 21, 0.8); padding: 8px; border-radius: 4px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* =========================================
+   8. RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+    .selection-wrapper { grid-column: span 1; }
+    .selection-cards { grid-template-columns: 1fr; }
+    
+    .header-content { 
+        flex-direction: column; 
+        gap: 15px; 
+        text-align: center; 
+        padding-bottom: 1rem;
+    }
+    
+    /* En móviles, quitamos la posición absoluta para que se apilen: Título > Status > Logo U */
+    .status-indicator {
+        position: static;
+        transform: none;
+        margin-top: 5px;
+    }
+    
+    .header-titles { align-items: center; }
+    
+    /* Hacemos el logo de la U visible pero pequeño en móvil */
+    .uni-container { display: block; margin-top: 5px; }
+    .uni-logo { height: 35px; }
+}
