@@ -3,230 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OVA: Monitoreo Energetico</title>
-    
+    <title>OVA: Monitoreo Energético</title>
     <link rel="stylesheet" href="styles.css">
-
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="img/logo2.png">
+    <!-- Chart.js para oscilógrafo e histórico -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="background-grid"></div>
-    
+    <div class="scanline-overlay"></div>
+
+    <!-- ══════════════ HEADER ══════════════ -->
     <header class="main-header">
         <div class="header-content">
-            
             <div class="logo-section">
-                <img src="img/logo.png" alt="OVA Logo" class="header-logo">
+                <img src="img/logo.png" alt="OVA Logo" class="header-logo" onerror="this.style.display='none'">
                 <div class="header-titles">
                     <h1 class="site-title">SISTEMA DE MONITOREO ENERGÉTICO</h1>
-                    <span class="dev-by">Developed by: D Gutierrez - JP Alvarez</span>
+                    <span class="dev-by">Developed by: D Gutierrez — JP Alvarez</span>
                 </div>
             </div>
-
-            <div class="status-indicator">
-                <span class="status-dot"></span>
-                <span class="status-text">V.1.0 ONLINE</span>
+            <div class="status-indicator" id="connStatus">
+                <span class="status-dot" id="statusDot"></span>
+                <span class="status-text" id="statusText">DESCONECTADO</span>
             </div>
-
             <div class="uni-container">
-                 <img src="img/logo_u.png" alt="Logo Universidad" class="uni-logo">
+                <img src="img/logo_u.png" alt="Logo Universidad" class="uni-logo" onerror="this.style.display='none'">
             </div>
-
         </div>
     </header>
 
+    <!-- ══════════════ NAV PRINCIPAL ══════════════ -->
     <input type="radio" name="main-view" id="view-intro" checked>
     <input type="radio" name="main-view" id="view-system">
+    <input type="radio" name="main-view" id="view-data">
 
     <nav class="top-nav">
-        <label for="view-intro" class="nav-btn">00. INTRODUCCIÓN</label>
+        <label for="view-intro"  class="nav-btn">00. INTRODUCCIÓN</label>
         <label for="view-system" class="nav-btn">01. SISTEMA TÉCNICO</label>
+        <label for="view-data"   class="nav-btn">02. DATOS & ESTADÍSTICAS</label>
     </nav>
 
+    <!-- ══════════════ VISTA 00: INTRO ══════════════ -->
     <main class="view-content" id="content-intro">
         <div class="container intro-container">
             <section class="hero-section">
-                <h2 class="main-title">Infraestructura de Medición Inteligente</h2>
-                <p class="subtitle">Plataforma educativa para el análisis y gestión de activos eléctricos.</p>
+                <p class="intro-label">OVA — Plataforma educativa v1.0</p>
+                <h2 class="main-title">Sistema de Monitoreo<br>Energético</h2>
+                <p class="subtitle">Monitoreo de variables eléctricas en tiempo real vía USB. Sin WiFi. Sin servidor.</p>
+                <div class="intro-divider"></div>
                 <div class="intro-grid">
                     <div class="info-card">
                         <h4>Objetivo</h4>
-                        <p style="color:var(--text-secondary); margin-top:0.5rem;">Monitorear variables físicas (V, I, P) en tiempo real.</p>
+                        <p>Monitorear voltaje, corriente y potencia en tiempo real usando Web Serial API directamente desde el navegador.</p>
                     </div>
                     <div class="info-card">
-                        <h4>Alcance</h4>
-                        <ul style="color:var(--text-secondary); margin-top:0.5rem; padding-left:1.2rem;">
-                            <li><strong>Hardware:</strong> Sensores y ESP32.</li>
-                            <li><strong>Integración:</strong> Hardware y software.</li>
-                        </ul>
+                        <h4>Hardware</h4>
+                        <p>ESP32-S3 como unidad de control. Sensor ZMPT101B para voltaje AC, ACS712 para corriente, módulo microSD por SPI.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Protocolo</h4>
+                        <p>Comunicación USB CDC a 921600 baud. Mensajes JSON estructurados por línea. Sin intermediarios de red.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Capacidades</h4>
+                        <p>Medidores analógicos animados, osciloscopio en tiempo real, registro en microSD y análisis estadístico de sesiones.</p>
                     </div>
                 </div>
                 <div class="cta-container">
-                    <label for="view-system" class="cta-button">INICIAR SISTEMA &rarr;</label>
+                    <label for="view-system" class="cta-button">INICIAR SISTEMA</label>
                 </div>
             </section>
         </div>
     </main>
 
+    <!-- ══════════════ VISTA 01: SISTEMA TÉCNICO ══════════════ -->
     <main class="view-content" id="content-system">
-        
+
+        <!-- Sub-nav -->
         <nav class="sub-nav-container">
             <div class="sub-nav">
                 <button class="sub-nav-item active" data-target="section-dev">Dispositivos</button>
                 <button class="sub-nav-item" data-target="section-cir">Circuito</button>
                 <button class="sub-nav-item" data-target="section-cod">Código</button>
-                <button class="sub-nav-item" data-target="section-dat">Data</button>
+                <button class="sub-nav-item" data-target="section-mon">Monitor</button>
                 <div class="slider-line"></div>
             </div>
         </nav>
 
         <div class="carousel-container" id="mainCarousel">
-            
+
+            <!-- SLIDE: Dispositivos -->
             <section class="carousel-slide" id="section-dev">
                 <div class="slide-content">
                     <div class="section-header"><h3>01. Hardware de Control</h3><div class="header-line"></div></div>
                     <div class="sensors-grid four-columns">
                         <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">ZMPT101B</span><h4>Voltaje AC</h4></div>
+                            <div class="sensor-info"><span class="sensor-badge">ZMPT101B</span><h4>Voltaje AC</h4><p class="sensor-desc">Transformador de voltaje. Escala 127/220V AC a nivel seguro para ADC.</p></div>
                             <div class="model-container">
                                 <model-viewer src="3dmodels/Voltage_Sensor/VTsensor(ZMPT101B) v4.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
                             </div>
                         </div>
-
                         <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">ACS712</span><h4>Corriente</h4></div>
+                            <div class="sensor-info"><span class="sensor-badge">ACS712</span><h4>Corriente</h4><p class="sensor-desc">Sensor Hall de efecto. 100mV/A (20A). Offset 2.5V en reposo.</p></div>
                             <div class="model-container">
                                 <model-viewer src="3dmodels/Current_Sensor/acs712.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
                             </div>
                         </div>
-
                         <div class="selection-wrapper">
                             <div class="selection-cards">
-                                <div class="sensor-card mcu-card">
-                                    <div class="sensor-info"><span class="sensor-badge">ESP32</span><h4>WROOM-32</h4></div>
+                                <div class="sensor-card mcu-card selected-mcu">
+                                    <div class="sensor-info"><span class="sensor-badge active-badge">ESP32-S3</span><h4>WROOM-32</h4><p class="sensor-desc">USB-CDC nativo. ADC 12-bit. Timer hardware para muestreo a 1kHz.</p></div>
                                     <div class="model-container">
                                         <model-viewer src="3dmodels/Mcu/esp32.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
                                     </div>
                                 </div>
-
                                 <div class="sensor-card mcu-card">
-                                    <div class="sensor-info"><span class="sensor-badge">Arduino</span><h4>UNO</h4></div>
+                                    <div class="sensor-info"><span class="sensor-badge">Arduino UNO</span><h4>No recomendado</h4><p class="sensor-desc">Sin USB-CDC nativo. Limitaciones de ADC y memoria para este sistema.</p></div>
                                     <div class="model-container">
                                         <model-viewer src="3dmodels/Mcu/arduino.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
                                     </div>
                                 </div>
                             </div>
-                            <div class="selection-alert">
-                                 SELECCIONAR SOLO UNO PARA LA IMPLEMENTACIÓN
-                            </div>
+                            <div class="selection-alert">USAR ESP32-S3 PARA COMPATIBILIDAD CON WEB SERIAL</div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SLIDE: Circuito -->
             <section class="carousel-slide" id="section-cir">
                 <div class="slide-content">
                     <div class="section-header"><h3>02. Esquemático</h3><div class="header-line"></div></div>
-                    <div class="sensors-grid">
+                    <div class="sensors-grid two-col">
                         <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">SPI</span><h4>Módulo SD</h4></div>
+                            <div class="sensor-info"><span class="sensor-badge">SPI</span><h4>Módulo MicroSD</h4></div>
                             <div class="model-container"><model-viewer src="3dmodels/Modules/micro_SD.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer></div>
                         </div>
-                        <div class="sensor-card diagram-card">
-                            <div class="sensor-info"><h4>Diagrama de Conexiones</h4></div>
-                            <div class="diagram-placeholder"><span>[IMAGEN DEL CIRCUITO]</span></div>
+                        <div class="sensor-card">
+                            <div class="sensor-info"><h4>Conexiones ESP32-S3</h4></div>
+                            <div class="pinout-table">
+                                <div class="pin-row header-row"><span>Componente</span><span>Pin ESP32-S3</span><span>Función</span></div>
+                                <div class="pin-row"><span class="pin-comp">ZMPT101B</span><span class="pin-num">GPIO1 (ADC)</span><span class="pin-fn">Voltaje AC</span></div>
+                                <div class="pin-row"><span class="pin-comp">ACS712</span><span class="pin-num">GPIO2 (ADC)</span><span class="pin-fn">Corriente</span></div>
+                                <div class="pin-row"><span class="pin-comp">MicroSD CS</span><span class="pin-num">GPIO10</span><span class="pin-fn">SPI CS</span></div>
+                                <div class="pin-row"><span class="pin-comp">MicroSD SCK</span><span class="pin-num">GPIO12</span><span class="pin-fn">SPI CLK</span></div>
+                                <div class="pin-row"><span class="pin-comp">MicroSD MOSI</span><span class="pin-num">GPIO11</span><span class="pin-fn">SPI Data Out</span></div>
+                                <div class="pin-row"><span class="pin-comp">MicroSD MISO</span><span class="pin-num">GPIO13</span><span class="pin-fn">SPI Data In</span></div>
+                                <div class="pin-row"><span class="pin-comp">GND común</span><span class="pin-num">GND</span><span class="pin-fn">Referencia</span></div>
+                                <div class="pin-row"><span class="pin-comp">Vcc sensores</span><span class="pin-num">3.3V</span><span class="pin-fn">Alimentación</span></div>
+                            </div>
+                            <div class="warning-box">⚠ ZMPT101B requiere circuito divisor. Nunca conectar AC directamente al GPIO.</div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SLIDE: Código -->
             <section class="carousel-slide" id="section-cod">
                 <div class="slide-content">
-                    <div class="section-header"><h3>03. Algoritmo C++</h3><div class="header-line"></div></div>
-                    <div class="code-window">
-                        <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">firmware.cpp</span></div>
-                        <pre class="code-block"><code>
-void loop() {
-    float v = getVoltageRMS();
-    Serial.println(v);
-    delay(100);
-}
-                        </code></pre>
-                    </div>
-                </div>
-            </section>
+                    <div class="section-header"><h3>03. Protocolo Serial</h3><div class="header-line"></div></div>
+                    <div class="protocol-grid">
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Comandos → ESP32</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// Comandos enviados por Web Serial</span>
+<span class="c-keyword">START</span>       <span class="c-comment">// Iniciar sesión + crear CSV</span>
+<span class="c-keyword">STOP</span>        <span class="c-comment">// Cerrar sesión</span>
+<span class="c-keyword">LIST</span>        <span class="c-comment">// Listar archivos SD</span>
+<span class="c-keyword">READ</span> nombre <span class="c-comment">// Descargar archivo</span>
+<span class="c-keyword">WAVE_ON</span>     <span class="c-comment">// Activar osciloscopio</span>
+<span class="c-keyword">WAVE_OFF</span>    <span class="c-comment">// Desactivar osciloscopio</span>
+<span class="c-keyword">STATUS</span>      <span class="c-comment">// Estado del sistema</span></code></pre>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Respuestas ← ESP32 (JSON)</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// RMS cada segundo:</span>
+{<span class="c-str">"type"</span>:<span class="c-str">"rms"</span>, <span class="c-str">"voltage"</span>:<span class="c-num">120.4</span>,
+ <span class="c-str">"current"</span>:<span class="c-num">1.32</span>, <span class="c-str">"power"</span>:<span class="c-num">158.9</span>}
 
-            <section class="carousel-slide" id="section-dat">
-                <div class="slide-content dashboard-container">
-                    <div class="dashboard-header"><h2 class="dashboard-title">Telemetría</h2></div>
-                    <div class="kpi-grid">
-                        <div class="kpi-card voltage-card"><span class="kpi-label">Voltaje</span><div class="kpi-value">120.3<span class="kpi-unit">V</span></div></div>
-                        <div class="kpi-card current-card"><span class="kpi-label">Corriente</span><div class="kpi-value">2.48<span class="kpi-unit">A</span></div></div>
-                        <div class="kpi-card power-card"><span class="kpi-label">Potencia</span><div class="kpi-value">283.2<span class="kpi-unit">W</span></div></div>
-                    </div>
-                    <div class="chart-section">
-                        <div class="chart-container">
-                             <svg class="waveform" viewBox="0 0 1200 300" preserveAspectRatio="none">
-                                <path class="wave-path" d="M 0,150 Q 50,50 100,150 T 200,150 T 300,150 T 400,150 T 500,150 T 600,150 T 700,150 T 800,150 T 900,150 T 1000,150 T 1100,150 T 1200,150" stroke="#3b82f6" stroke-width="2" fill="none"/>
-                            </svg>
+<span class="c-comment">// Forma de onda (200 muestras):</span>
+{<span class="c-str">"type"</span>:<span class="c-str">"wave"</span>,
+ <span class="c-str">"samples"</span>:[<span class="c-num">512,520,530...</span>]}
+
+<span class="c-comment">// Lista de archivos:</span>
+{<span class="c-str">"type"</span>:<span class="c-str">"list"</span>,
+ <span class="c-str">"files"</span>:[{<span class="c-str">"name"</span>:<span class="c-str">"session_01.csv"</span>,
+            <span class="c-str">"size"</span>:<span class="c-num">4096</span>}]}
+
+<span class="c-comment">// Confirmación:</span>
+{<span class="c-str">"type"</span>:<span class="c-str">"ack"</span>, <span class="c-str">"cmd"</span>:<span class="c-str">"START"</span>,
+ <span class="c-str">"msg"</span>:<span class="c-str">"session_00042.csv"</span>}</code></pre>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Calibración sensores</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// ZMPT101B - ajustar VOLTAGE_FACTOR:</span>
+<span class="c-comment">// 1. Medir con multímetro real: Vreal</span>
+<span class="c-comment">// 2. Ver RMS calculado: Vcalc</span>
+<span class="c-comment">// 3. Factor = VOLTAGE_FACTOR * (Vreal/Vcalc)</span>
+<span class="c-keyword">float</span> VOLTAGE_FACTOR = <span class="c-num">0.2247f</span>;
+
+<span class="c-comment">// ACS712 - offset en cero carga:</span>
+<span class="c-comment">// 1. Sin carga → leer ADC promedio</span>
+<span class="c-comment">// 2. Ese valor = CURRENT_OFFSET (~2048)</span>
+<span class="c-keyword">float</span> CURRENT_OFFSET = <span class="c-num">2048.0f</span>;
+<span class="c-comment">// Sensibilidad: 185mV/A (5A) | 100mV/A (20A)</span></code></pre>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SLIDE: Monitor en Vivo -->
+            <section class="carousel-slide" id="section-mon">
+                <div class="slide-content dashboard-live">
+
+                    <!-- Panel de conexión -->
+                    <div class="connection-panel">
+                        <div class="conn-left">
+                            <button id="btnConnect" class="ctrl-btn connect-btn" onclick="SerialManager.connect()">
+                                CONECTAR ESP32
+                            </button>
+                            <button id="btnDisconnect" class="ctrl-btn disconnect-btn hidden" onclick="SerialManager.disconnect()">
+                                DESCONECTAR
+                            </button>
+                        </div>
+                        <div class="conn-center">
+                            <div class="session-controls">
+                                <button id="btnStart" class="ctrl-btn session-btn" disabled onclick="Session.start()">INICIAR SESION</button>
+                                <button id="btnStop"  class="ctrl-btn stop-btn"    disabled onclick="Session.stop()">FINALIZAR</button>
+                            </div>
+                            <div class="session-info" id="sessionInfo">Sin sesión activa</div>
+                        </div>
+                        <div class="conn-right">
+                            <button id="btnWaveOn"  class="ctrl-btn wave-btn" disabled onclick="Session.waveOn()">OSCILOSCOPIO ON</button>
+                            <button id="btnWaveOff" class="ctrl-btn wave-off-btn hidden" onclick="Session.waveOff()">OSCILOSCOPIO OFF</button>
+                        </div>
+                    </div>
+
+                    <!-- KPI Gauges analógicos -->
+                    <div class="gauges-panel">
+                        <div class="gauge-wrapper">
+                            <canvas id="gaugeVoltage" width="220" height="140"></canvas>
+                            <div class="gauge-label">VOLTAJE RMS</div>
+                            <div class="gauge-value-display" id="valVoltage">---<span class="gauge-unit">V</span></div>
+                        </div>
+                        <div class="gauge-wrapper">
+                            <canvas id="gaugeCurrent" width="220" height="140"></canvas>
+                            <div class="gauge-label">CORRIENTE RMS</div>
+                            <div class="gauge-value-display" id="valCurrent">---<span class="gauge-unit">A</span></div>
+                        </div>
+                        <div class="gauge-wrapper">
+                            <canvas id="gaugePower" width="220" height="140"></canvas>
+                            <div class="gauge-label">POTENCIA APARENTE</div>
+                            <div class="gauge-value-display" id="valPower">---<span class="gauge-unit">W</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Osciloscopio -->
+                    <div class="oscilloscope-panel">
+                        <div class="osc-header">
+                            <span class="osc-title">OSCILOSCOPIO — Voltaje Instantáneo</span>
+                            <div class="osc-indicators">
+                                <span class="osc-ind" id="oscFreq">f: 60 Hz</span>
+                                <span class="osc-ind" id="oscRate">Rate: 1kHz</span>
+                                <span class="osc-ind wave-active-dot" id="oscActive">● INACTIVO</span>
+                            </div>
+                        </div>
+                        <div class="osc-container">
+                            <canvas id="oscCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Log serial -->
+                    <div class="serial-log-panel">
+                        <div class="log-header">
+                            <span>SERIAL LOG</span>
+                            <button class="log-clear-btn" onclick="clearLog()">LIMPIAR</button>
+                        </div>
+                        <div class="serial-log" id="serialLog"></div>
+                    </div>
+
+
+                </div>
+            </section>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('mainCarousel');
-            const navButtons = document.querySelectorAll('.sub-nav-item');
-            const sliderLine = document.querySelector('.slider-line');
-            const sections = document.querySelectorAll('.carousel-slide');
+    <!-- ══════════════ VISTA 02: DATOS & ESTADÍSTICAS ══════════════ -->
+    <main class="view-content" id="content-data">
+        <div class="slide-content data-view">
 
-            function moveLineTo(targetButton) {
-                if (!targetButton) return;
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                targetButton.classList.add('active');
-                const parentRect = targetButton.parentElement.getBoundingClientRect();
-                const btnRect = targetButton.getBoundingClientRect();
-                const left = btnRect.left - parentRect.left;
-                const width = btnRect.width;
-                sliderLine.style.transform = `translateX(${left}px)`;
-                sliderLine.style.width = `${width}px`;
-            }
+            <div class="data-header">
+                <div class="section-header"><h3>02. Datos & Estadísticas</h3><div class="header-line"></div></div>
+                <div class="data-controls">
+                    <button class="ctrl-btn connect-btn" onclick="FileManager.listFiles()" id="btnList">LISTAR ARCHIVOS</button>
+                </div>
+            </div>
 
-            navButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetId = btn.getAttribute('data-target');
-                    const targetSection = document.getElementById(targetId);
-                    moveLineTo(btn);
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                });
-            });
+            <div class="data-main-grid">
 
-            const observerOptions = { root: container, threshold: 0.6 };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        const correspondingButton = document.querySelector(`.sub-nav-item[data-target="${id}"]`);
-                        moveLineTo(correspondingButton);
-                    }
-                });
-            }, observerOptions);
+                <!-- Lista de archivos -->
+                <div class="files-panel">
+                    <div class="panel-title">ARCHIVOS EN MICROSD</div>
+                    <div class="file-list" id="fileList">
+                        <div class="file-empty">Conecte el ESP32 y pulse "Listar Archivos"</div>
+                    </div>
+                </div>
 
-            sections.forEach(section => observer.observe(section));
-            setTimeout(() => moveLineTo(navButtons[0]), 200);
-            window.addEventListener('resize', () => {
-                const activeBtn = document.querySelector('.sub-nav-item.active');
-                if(activeBtn) moveLineTo(activeBtn);
-            });
-        });
-    </script>
+                <!-- Estadísticas -->
+                <div class="stats-panel">
+                    <div class="panel-title">ANÁLISIS ESTADÍSTICO</div>
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-block">
+                            <div class="stat-label">Voltaje Prom.</div>
+                            <div class="stat-value" id="statVavg">—</div><div class="stat-unit">V</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">V Máximo</div>
+                            <div class="stat-value" id="statVmax">—</div><div class="stat-unit">V</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">V Mínimo</div>
+                            <div class="stat-value" id="statVmin">—</div><div class="stat-unit">V</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">V Desv. Std</div>
+                            <div class="stat-value" id="statVstd">—</div><div class="stat-unit">V</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">Corriente Prom.</div>
+                            <div class="stat-value" id="statIavg">—</div><div class="stat-unit">A</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">Potencia Prom.</div>
+                            <div class="stat-value" id="statPavg">—</div><div class="stat-unit">W</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">Potencia Máx.</div>
+                            <div class="stat-value" id="statPmax">—</div><div class="stat-unit">W</div>
+                        </div>
+                        <div class="stat-block">
+                            <div class="stat-label">Muestras</div>
+                            <div class="stat-value" id="statCount">—</div><div class="stat-unit">#</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfica histórico -->
+                <div class="history-panel">
+                    <div class="history-header">
+                        <span class="panel-title">HISTORIAL DE SESIÓN</span>
+                        <div class="chart-controls">
+                            <button class="chart-btn active" data-metric="voltage" onclick="HistoryChart.setMetric('voltage', this)">Voltaje</button>
+                            <button class="chart-btn" data-metric="current" onclick="HistoryChart.setMetric('current', this)">Corriente</button>
+                            <button class="chart-btn" data-metric="power" onclick="HistoryChart.setMetric('power', this)">Potencia</button>
+                            <button class="chart-btn export-btn" onclick="HistoryChart.exportChart()">↓ EXPORTAR</button>
+                        </div>
+                    </div>
+                    <div class="history-chart-container">
+                        <canvas id="historyChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
 </body>
 </html>
