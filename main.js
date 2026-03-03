@@ -1,4 +1,4 @@
-    // ============================================================
+// ============================================================
     //  MÓDULO: WEB SERIAL MANAGER
     // ============================================================
     const SerialManager = (() => {
@@ -831,3 +831,10 @@
             logSerial('WARN', 'Web Serial API no detectada. Usa Chrome 89+ o Edge 89+');
         }
     });
+
+    // Exponer al scope global para los onclick del HTML
+    window.SerialManager = SerialManager;
+    window.Session       = Session;
+    window.FileManager   = FileManager;
+    window.HistoryChart  = HistoryChart;
+    window.Oscilloscope  = Oscilloscope;
