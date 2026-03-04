@@ -6,9 +6,8 @@
     <title>OVA: Monitoreo Energético</title>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="img/logo2.png">
-    <meta http-equiv="Permissions-Policy" content="serial=*">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
@@ -46,43 +45,192 @@
         <label for="view-data"   class="nav-btn">02. DATOS & ESTADÍSTICAS</label>
     </nav>
 
-    <!-- ══════════════ VISTA 00: INTRO ══════════════ -->
+    <!-- ══════════════ VISTA 00: INTRODUCCIÓN ══════════════ -->
     <main class="view-content" id="content-intro">
-        <div class="container intro-container">
-            <section class="hero-section">
-                <p class="intro-label">OVA — Plataforma educativa v1.0</p>
-                <h2 class="main-title">Sistema de Monitoreo<br>Energético</h2>
-                <p class="subtitle">Monitoreo de variables eléctricas en tiempo real vía USB. Sin WiFi. Sin servidor.</p>
-                <div class="intro-divider"></div>
-                <div class="intro-grid">
-                    <div class="info-card">
-                        <h4>Objetivo</h4>
-                        <p>Monitorear voltaje, corriente y potencia en tiempo real usando Web Serial API directamente desde el navegador.</p>
+        <div class="edu-container">
+
+            <!-- Hero -->
+            <section class="edu-hero">
+                <div class="edu-hero-badge">OVA — Plataforma Educativa v1.0</div>
+                <h2 class="edu-hero-title">Sistema de Monitoreo<br><span class="accent">Energético</span></h2>
+                <p class="edu-hero-sub">Aprende a medir voltaje, corriente y potencia eléctrica en tiempo real,<br>desde cero y sin necesidad de conocimientos previos en electrónica.</p>
+            </section>
+
+            <!-- 2.1 Qué es el monitoreo energético -->
+            <section class="edu-section">
+                <div class="edu-section-num">01</div>
+                <div class="edu-section-body">
+                    <h3 class="edu-section-title">¿Qué es el monitoreo energético?</h3>
+                    <p class="edu-text">El <strong>monitoreo energético</strong> es el proceso de medir, registrar y analizar el consumo de energía eléctrica de un sistema. Permite saber <em>cuánta electricidad</em> se está usando, <em>cuándo</em> se usa y <em>dónde</em> se está yendo.</p>
+                    <p class="edu-text">Es como el velocímetro de un carro, pero para la electricidad de tu casa o empresa.</p>
+
+                    <div class="edu-cards-row">
+                        <div class="edu-card">
+                            <h4>Hogares</h4>
+                            <p>Detectar qué electrodoméstico consume más energía y reducir la factura de luz.</p>
+                        </div>
+                        <div class="edu-card">
+                            <h4>Industrias</h4>
+                            <p>Monitorear máquinas para detectar fallas, optimizar procesos y evitar paros inesperados.</p>
+                        </div>
+                        <div class="edu-card">
+                            <h4>Hospitales</h4>
+                            <p>Garantizar suministro estable de energía para equipos médicos críticos.</p>
+                        </div>
+                        <div class="edu-card">
+                            <h4>¿Por qué medir?</h4>
+                            <p>Lo que no se mide no se puede mejorar. Medir energía es el primer paso para ahorrarla.</p>
+                        </div>
                     </div>
-                    <div class="info-card">
-                        <h4>Hardware</h4>
-                        <p>ESP32-S3 como unidad de control. Sensor ZMPT101B para voltaje AC, ACS712 para corriente, módulo microSD por SPI.</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Protocolo</h4>
-                        <p>Comunicación USB CDC a 921600 baud. Mensajes JSON estructurados por línea. Sin intermediarios de red.</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Capacidades</h4>
-                        <p>Medidores analógicos animados, osciloscopio en tiempo real, registro en microSD y análisis estadístico de sesiones.</p>
-                    </div>
-                </div>
-                <div class="cta-container">
-                    <label for="view-system" class="cta-button">INICIAR SISTEMA</label>
                 </div>
             </section>
+
+            <!-- 2.2 Conceptos básicos de electricidad -->
+            <section class="edu-section">
+                <div class="edu-section-num">02</div>
+                <div class="edu-section-body">
+                    <h3 class="edu-section-title">Conceptos básicos de electricidad AC</h3>
+
+                    <!-- Voltaje -->
+                    <div class="edu-concept-block">
+                        <h4 class="edu-concept-title"><span class="concept-dot blue"></span>Voltaje en corriente alterna (AC)</h4>
+                        <p class="edu-text">El <strong>voltaje</strong> es la fuerza que empuja a los electrones a través de un cable. Se mide en <strong>Voltios (V)</strong>. En la corriente alterna, este voltaje no es constante: cambia de dirección varias veces por segundo, formando una <em>onda senoidal</em>.</p>
+                        <p class="edu-text">En Colombia y la mayoría de países de América, la red eléctrica doméstica trabaja a <strong>120 V / 60 Hz</strong>, lo que significa que la onda completa sus 60 ciclos cada segundo.</p>
+                        <div class="chart-edu-container">
+                            <div class="chart-edu-label">Onda senoidal de voltaje AC — 120V / 60Hz</div>
+                            <canvas id="chartVoltageWave" height="80"></canvas>
+                            <div class="chart-edu-annotations">
+                                <span class="annot blue">● Voltaje (V)</span>
+                                <span class="annot gray">— Un ciclo completo = 1/60 s ≈ 16.7 ms</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Corriente -->
+                    <div class="edu-concept-block">
+                        <h4 class="edu-concept-title"><span class="concept-dot green"></span>Corriente eléctrica en AC</h4>
+                        <p class="edu-text">La <strong>corriente</strong> es el flujo de electrones que circula por el cable. Se mide en <strong>Amperios (A)</strong>. Al igual que el voltaje, en AC también es alterna: oscila en la misma frecuencia pero puede tener un <em>desfase</em> respecto al voltaje, dependiendo del tipo de carga.</p>
+                        <div class="chart-edu-container">
+                            <div class="chart-edu-label">Voltaje y corriente AC — con desfase de fase (carga inductiva)</div>
+                            <canvas id="chartVIWave" height="80"></canvas>
+                            <div class="chart-edu-annotations">
+                                <span class="annot blue">● Voltaje (V)</span>
+                                <span class="annot green">● Corriente (A)</span>
+                                <span class="annot orange">← Desfase φ →  La corriente llega "tarde" respecto al voltaje</span>
+                            </div>
+                        </div>
+                        <div class="edu-info-box">
+                            <strong>¿Qué significa el desfase?</strong> En cargas puramente resistivas (bombillos, estufas), la corriente y el voltaje están perfectamente alineados. En cargas con bobinas o motores (carga inductiva), la corriente se "atrasa". Esto afecta la eficiencia del sistema y se llama <em>factor de potencia</em>.
+                        </div>
+                    </div>
+
+                    <!-- Potencia -->
+                    <div class="edu-concept-block">
+                        <h4 class="edu-concept-title"><span class="concept-dot orange"></span>Potencia eléctrica</h4>
+                        <p class="edu-text">La <strong>potencia</strong> indica cuánta energía consume un dispositivo por segundo. Se mide en <strong>Watts (W)</strong> y se calcula como:</p>
+                        <div class="edu-formula">
+                            <span class="formula-big">P = V × I</span>
+                            <span class="formula-desc">Potencia = Voltaje × Corriente</span>
+                        </div>
+                        <div class="edu-cards-row">
+                            <div class="edu-card small">
+                                <h4>Bombillo LED</h4>
+                                <p>~10W — Bajo consumo</p>
+                            </div>
+                            <div class="edu-card small">
+                                <h4>Computador</h4>
+                                <p>~150W — Consumo moderado</p>
+                            </div>
+                            <div class="edu-card small">
+                                <h4>Estufa eléctrica</h4>
+                                <p>~1500W — Alto consumo</p>
+                            </div>
+                            <div class="edu-card small">
+                                <h4>Aire acondicionado</h4>
+                                <p>~2000W — Muy alto consumo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2.3 Carga eléctrica -->
+            <section class="edu-section">
+                <div class="edu-section-num">03</div>
+                <div class="edu-section-body">
+                    <h3 class="edu-section-title">¿Qué es una carga eléctrica?</h3>
+                    <p class="edu-text">En electricidad, una <strong>carga</strong> es cualquier dispositivo que consume energía: un bombillo, un motor, una nevera, un televisor. La carga "resiste" el flujo de corriente y convierte la energía eléctrica en calor, luz o movimiento.</p>
+                    <div class="edu-chain">
+                        <div class="chain-step">
+                            <div class="chain-num">01</div>
+                            <div class="chain-label">Más carga conectada</div>
+                        </div>
+                        <div class="chain-arrow">&rarr;</div>
+                        <div class="chain-step">
+                            <div class="chain-num">02</div>
+                            <div class="chain-label">Mayor corriente circula</div>
+                        </div>
+                        <div class="chain-arrow">&rarr;</div>
+                        <div class="chain-step">
+                            <div class="chain-num">03</div>
+                            <div class="chain-label">Mayor potencia consumida</div>
+                        </div>
+                        <div class="chain-arrow">&rarr;</div>
+                        <div class="chain-step">
+                            <div class="chain-num">04</div>
+                            <div class="chain-label">Factura de luz más alta</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2.4 Microcontrolador -->
+            <section class="edu-section">
+                <div class="edu-section-num">04</div>
+                <div class="edu-section-body">
+                    <h3 class="edu-section-title">¿Qué es un microcontrolador?</h3>
+                    <p class="edu-text">Un <strong>microcontrolador</strong> es un pequeño computador en un solo chip. Tiene procesador, memoria y pines de entrada/salida integrados. Se programa para leer sensores, procesar datos y enviarlos a otro dispositivo.</p>
+                    <p class="edu-text">Piénsalo como el cerebro del sistema: recibe los datos de los sensores, hace los cálculos y los envía a la página web.</p>
+
+                    <div class="edu-compare">
+                        <div class="compare-card winner">
+                            <div class="compare-badge">USAMOS ESTE</div>
+                            <h4>ESP32-S3</h4>
+                            <ul class="compare-list">
+                                <li>USB-CDC nativo (sin adaptador)</li>
+                                <li>ADC de 12 bits (alta resolución)</li>
+                                <li>240 MHz dual-core</li>
+                                <li>WiFi y Bluetooth integrados</li>
+                                <li>Timer hardware para muestreo preciso</li>
+                                <li>45 pines GPIO</li>
+                            </ul>
+                        </div>
+                        <div class="compare-card loser">
+                            <div class="compare-badge-no">NO RECOMENDADO</div>
+                            <h4>Arduino UNO</h4>
+                            <ul class="compare-list">
+                                <li>Sin USB-CDC nativo</li>
+                                <li>ADC de 10 bits (menor resolución)</li>
+                                <li>16 MHz single-core</li>
+                                <li>Sin WiFi ni Bluetooth</li>
+                                <li>Limitado para este sistema</li>
+                                <li>Solo 14 pines digitales</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="cta-container">
+                        <label for="view-system" class="cta-button">VER SISTEMA TÉCNICO →</label>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
     <!-- ══════════════ VISTA 01: SISTEMA TÉCNICO ══════════════ -->
     <main class="view-content" id="content-system">
 
-        <!-- Sub-nav -->
         <nav class="sub-nav-container">
             <div class="sub-nav">
                 <button class="sub-nav-item active" data-target="section-dev">Dispositivos</button>
@@ -98,37 +246,117 @@
             <!-- SLIDE: Dispositivos -->
             <section class="carousel-slide" id="section-dev">
                 <div class="slide-content">
-                    <div class="section-header"><h3>01. Hardware de Control</h3><div class="header-line"></div></div>
-                    <div class="sensors-grid four-columns">
-                        <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">ZMPT101B</span><h4>Voltaje AC</h4><p class="sensor-desc">Transformador de voltaje. Escala 127/220V AC a nivel seguro para ADC.</p></div>
-                            <div class="model-container">
-                                <model-viewer src="3dmodels/Voltage_Sensor/VTsensor(ZMPT101B) v4.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                    <div class="section-header"><h3>01. Dispositivos del Sistema</h3><div class="header-line"></div></div>
+                    <p class="slide-intro">Estos son los componentes físicos que forman el sistema de monitoreo. Cada uno cumple una función específica y se comunica con el ESP32.</p>
+
+                    <div class="dev-grid">
+
+                        <!-- ESP32 -->
+                        <div class="dev-card featured">
+                            <div class="dev-card-header">
+                                <span class="dev-badge primary">CEREBRO DEL SISTEMA</span>
+                                <h4>ESP32-S3</h4>
+                            </div>
+                            <div class="dev-card-body">
+                                <div class="dev-model">
+                                    <model-viewer src="3dmodels/Mcu/esp32.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                </div>
+                                <div class="dev-info">
+                                    <p class="dev-desc">El ESP32-S3 es el microcontrolador principal. Lee los sensores, calcula los valores eléctricos y los envía al navegador por USB.</p>
+                                    <div class="dev-concepts">
+                                        <div class="dev-concept">
+                                            <span class="dev-concept-term">¿Qué es un GPIO?</span>
+                                            <span class="dev-concept-def">General Purpose Input/Output — es un pin del microcontrolador que puede leer o escribir señales eléctricas. Este sistema usa pines GPIO para leer los sensores.</span>
+                                        </div>
+                                        <div class="dev-concept">
+                                            <span class="dev-concept-term">¿Qué es ADC?</span>
+                                            <span class="dev-concept-def">Analog to Digital Converter — convierte una señal de voltaje analógica (continua) en un número digital. El ESP32-S3 tiene ADC de 12 bits: puede representar 4096 niveles de voltaje.</span>
+                                        </div>
+                                    </div>
+                                    <div class="dev-note"> Los pines de los sensores pueden cambiarse a cualquier pin que sea ADC. No todos los GPIO tienen ADC — verificar siempre el pinout del ESP32-S3.</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">ACS712</span><h4>Corriente</h4><p class="sensor-desc">Sensor Hall de efecto. 100mV/A (20A). Offset 2.5V en reposo.</p></div>
-                            <div class="model-container">
-                                <model-viewer src="3dmodels/Current_Sensor/acs712.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+
+                        <!-- ZMPT101B -->
+                        <div class="dev-card">
+                            <div class="dev-card-header">
+                                <span class="dev-badge blue">SENSOR DE VOLTAJE</span>
+                                <h4>ZMPT101B</h4>
+                            </div>
+                            <div class="dev-card-body">
+                                <div class="dev-model small">
+                                    <model-viewer src="3dmodels/Voltage_Sensor/VTsensor(ZMPT101B) v4.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                </div>
+                                <div class="dev-info">
+                                    <p class="dev-desc">Mide el voltaje de la red eléctrica AC (127V o 220V) y lo transforma a un nivel seguro (0–3.3V) que el ADC del ESP32 puede leer directamente, sin necesidad de divisor de tensión externo.</p>
+                                    <p class="dev-desc">Funciona como un transformador miniatura con acondicionamiento interno: aísla galvánicamente la red eléctrica del microcontrolador y entrega la señal escalada por su potenciómetro de ajuste.</p>
+                                    <div class="pin-table">
+                                        <div class="pin-row-edu header">
+                                            <span>Pin</span><span>Función</span>
+                                        </div>
+                                        <div class="pin-row-edu"><span class="pin-name">VCC</span><span>Alimentación del módulo (3.3V o 5V)</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">GND</span><span>Referencia de tierra</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">OUT</span><span>Señal de voltaje escalada → GPIO del ESP32</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">L/N</span><span>Entradas AC de la red eléctrica (ALTA TENSIÓN)</span></div>
+                                    </div>
+                                    <div class="dev-warning">⚠ Los terminales L/N manejan 120V/220V AC. No tocar con el sistema energizado.</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="selection-wrapper">
-                            <div class="selection-cards">
-                                <div class="sensor-card mcu-card selected-mcu">
-                                    <div class="sensor-info"><span class="sensor-badge active-badge">ESP32-S3</span><h4>WROOM-32</h4><p class="sensor-desc">USB-CDC nativo. ADC 12-bit. Timer hardware para muestreo a 1kHz.</p></div>
-                                    <div class="model-container">
-                                        <model-viewer src="3dmodels/Mcu/esp32_s3.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+
+                        <!-- ACS712 -->
+                        <div class="dev-card">
+                            <div class="dev-card-header">
+                                <span class="dev-badge green">SENSOR DE CORRIENTE</span>
+                                <h4>ACS712</h4>
+                            </div>
+                            <div class="dev-card-body">
+                                <div class="dev-model small">
+                                    <model-viewer src="3dmodels/Current_Sensor/acs712.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                </div>
+                                <div class="dev-info">
+                                    <p class="dev-desc">Mide la corriente que circula por un conductor usando el <strong>efecto Hall</strong>: detecta el campo magnético generado por la corriente sin contacto directo con el circuito de carga.</p>
+                                    <p class="dev-desc">El cable de fase de la carga pasa por los terminales IP+/IP- del sensor. El ESP32 lee la salida OUT.</p>
+                                    <div class="pin-table">
+                                        <div class="pin-row-edu header"><span>Pin</span><span>Función</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">VCC</span><span>Alimentación (3.3V o 5V)</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">GND</span><span>Referencia de tierra</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">OUT</span><span>Señal de corriente → GPIO ADC del ESP32</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">IP+</span><span>Entrada de corriente — conectar a la fase</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">IP−</span><span>Salida de corriente — conectar a la carga</span></div>
+                                    </div>
+                                    <div class="dev-note"> El ACS712 viene en versiones de 5A, 20A y 30A. Este sistema usa el de 20A (sensibilidad 100mV/A).</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MicroSD -->
+                        <div class="dev-card">
+                            <div class="dev-card-header">
+                                <span class="dev-badge orange">ALMACENAMIENTO</span>
+                                <h4>Módulo MicroSD</h4>
+                            </div>
+                            <div class="dev-card-body">
+                                <div class="dev-model small">
+                                    <model-viewer src="3dmodels/Modules/micro_SD.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                                </div>
+                                <div class="dev-info">
+                                    <p class="dev-desc">Permite guardar los datos de voltaje, corriente y potencia en archivos CSV directamente en una tarjeta microSD. Los archivos pueden descargarse después para análisis.</p>
+                                    <p class="dev-desc">Se comunica con el ESP32 mediante el protocolo <strong>SPI</strong> (Serial Peripheral Interface), que requiere 4 cables de datos más alimentación.</p>
+                                    <div class="pin-table">
+                                        <div class="pin-row-edu header"><span>Pin</span><span>Función</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">VCC</span><span>Alimentación (3.3V)</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">GND</span><span>Referencia de tierra</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">CS</span><span>Chip Select — activa el módulo SD</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">MOSI</span><span>Master Out Slave In — datos del ESP32 a la SD</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">MISO</span><span>Master In Slave Out — datos de la SD al ESP32</span></div>
+                                        <div class="pin-row-edu"><span class="pin-name">SCK</span><span>Clock — sincroniza la comunicación SPI</span></div>
                                     </div>
                                 </div>
-                                <div class="sensor-card mcu-card">
-                                    <div class="sensor-info"><span class="sensor-badge">Arduino UNO</span><h4>No recomendado</h4><p class="sensor-desc">Sin USB-CDC nativo. Limitaciones de ADC y memoria para este sistema.</p></div>
-                                    <div class="model-container">
-                                        <model-viewer src="3dmodels/Mcu/arduino.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="selection-alert">ESTE OVA SE TESTEO EMPLEANDO UNA ESP32-S3</div>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -136,154 +364,323 @@
             <!-- SLIDE: Circuito -->
             <section class="carousel-slide" id="section-cir">
                 <div class="slide-content">
-                    <div class="section-header"><h3>02. Esquemático</h3><div class="header-line"></div></div>
-                    <div class="sensors-grid two-col">
-                        <div class="sensor-card">
-                            <div class="sensor-info"><span class="sensor-badge">SPI</span><h4>Módulo MicroSD</h4></div>
-                            <div class="model-container"><model-viewer src="3dmodels/Modules/micro_SD.glb" ar camera-controls auto-rotate shadow-intensity="1"></model-viewer></div>
+                    <div class="section-header"><h3>02. Circuito y Conexiones</h3><div class="header-line"></div></div>
+
+                    <!-- Materiales -->
+                    <div class="circuit-block">
+                        <h4 class="circuit-block-title">01. Materiales necesarios</h4>
+                        <div class="materials-grid">
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">ESP32-S3 DevKit</span></div>
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">Sensor voltaje ZMPT101B</span></div>
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">Sensor corriente ACS712-20A</span></div>
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">Módulo MicroSD + tarjeta FAT32</span></div>
+                            <div class="material-item"><span class="mat-qty">2×</span><span class="mat-name">Resistencia 10 kΩ (pull-down ADC)</span></div>
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">Protoboard o PCB</span></div>
+                            <div class="material-item"><span class="mat-qty">1×</span><span class="mat-name">Cable USB-C (para ESP32)</span></div>
+                            <div class="material-item"><span class="mat-qty">c/n</span><span class="mat-name">Jumpers (cables de conexión)</span></div>
                         </div>
-                        <div class="sensor-card">
-                            <div class="sensor-info"><h4>Conexiones ESP32-S3</h4></div>
-                            <div class="pinout-table">
-                                <div class="pin-row header-row"><span>Componente</span><span>Pin ESP32-S3</span><span>Función</span></div>
-                                <div class="pin-row"><span class="pin-comp">ZMPT101B Out</span><span class="pin-num">GPIO5 (ADC)</span><span class="pin-fn">Voltaje AC</span></div>
-                                <div class="pin-row"><span class="pin-comp">ACS712 Out</span><span class="pin-num">GPIO4 (ADC)</span><span class="pin-fn">Corriente</span></div>
-                                <div class="pin-row"><span class="pin-comp">MicroSD CS</span><span class="pin-num">GPIO10</span><span class="pin-fn">SPI CS</span></div>
-                                <div class="pin-row"><span class="pin-comp">MicroSD SCK</span><span class="pin-num">GPIO12</span><span class="pin-fn">SPI CLK</span></div>
-                                <div class="pin-row"><span class="pin-comp">MicroSD MOSI</span><span class="pin-num">GPIO11</span><span class="pin-fn">SPI Data Out</span></div>
-                                <div class="pin-row"><span class="pin-comp">MicroSD MISO</span><span class="pin-num">GPIO13</span><span class="pin-fn">SPI Data In</span></div>
-                                <div class="pin-row"><span class="pin-comp">GND común</span><span class="pin-num">GND</span><span class="pin-fn">Referencia</span></div>
-                                <div class="pin-row"><span class="pin-comp">Vcc sensores</span><span class="pin-num">3.3V</span><span class="pin-fn">Alimentación</span></div>
-                            </div>
-                            <div class="warning-box">⚠ ESP32 trabaja a 3.3v, no conectar niveles de tension superiores. Nunca conectar AC directamente al GPIO.</div>
+                        <div class="edu-info-box" style="margin-top:0.8rem">
+                            <strong>Resistencias pull-down (10 kΩ):</strong> Se colocan entre la salida OUT de cada sensor y GND. Evitan que el pin ADC del ESP32 quede en un estado indefinido (flotante) cuando no hay señal, garantizando lecturas estables y sin ruido.
                         </div>
                     </div>
+
+                    <!-- Esquemático placeholder -->
+                    <div class="circuit-block">
+                        <h4 class="circuit-block-title">02. Esquemático del circuito</h4>
+                        <div class="schematic-placeholder">
+                            <div class="schematic-text">AQUÍ VA IMAGEN DEL CIRCUITO</div>
+                            <div class="schematic-sub">PENDIENTE DE AGREGAR</div>
+                        </div>
+                    </div>
+
+                    <!-- Conexiones -->
+                    <div class="circuit-block">
+                        <h4 class="circuit-block-title">03. Tabla de conexiones ESP32-S3</h4>
+                        <p class="edu-text-sm">Los pines indicados son los usados en este proyecto. <strong>Pueden cambiarse</strong> siempre que el nuevo pin sea un pin ADC válido del ESP32-S3.</p>
+                        <div class="pinout-table">
+                            <div class="pin-row header-row"><span>Componente</span><span>Pin ESP32-S3</span><span>Función</span></div>
+                            <div class="pin-row"><span class="pin-comp">ZMPT101B OUT</span><span class="pin-num">GPIO5 (ADC1)</span><span class="pin-fn">Señal de voltaje AC</span></div>
+                            <div class="pin-row"><span class="pin-comp">ACS712 OUT</span><span class="pin-num">GPIO4 (ADC1)</span><span class="pin-fn">Señal de corriente</span></div>
+                            <div class="pin-row"><span class="pin-comp">MicroSD CS</span><span class="pin-num">GPIO17</span><span class="pin-fn">SPI Chip Select</span></div>
+                            <div class="pin-row"><span class="pin-comp">MicroSD SCK</span><span class="pin-num">GPIO12</span><span class="pin-fn">SPI Clock</span></div>
+                            <div class="pin-row"><span class="pin-comp">MicroSD MOSI</span><span class="pin-num">GPIO11</span><span class="pin-fn">SPI Data Out</span></div>
+                            <div class="pin-row"><span class="pin-comp">MicroSD MISO</span><span class="pin-num">GPIO13</span><span class="pin-fn">SPI Data In</span></div>
+                            <div class="pin-row"><span class="pin-comp">GND común</span><span class="pin-num">GND</span><span class="pin-fn">Referencia de tierra</span></div>
+                            <div class="pin-row"><span class="pin-comp">Vcc sensores</span><span class="pin-num">3.3V</span><span class="pin-fn">Alimentación</span></div>
+                        </div>
+                        <div class="edu-concepts-inline">
+                            <div class="inline-concept"><strong>GPIO</strong>: Pin de propósito general del microcontrolador. Puede configurarse como entrada (leer) o salida (escribir).</div>
+                            <div class="inline-concept"><strong>ADC</strong>: Conversor Analógico-Digital. Solo algunos GPIO tienen ADC. En el ESP32-S3, el ADC1 (pines 1–10) funciona siempre; el ADC2 puede tener conflictos con USB.</div>
+                        </div>
+                        <div class="warning-box">NOTA: Los terminales de red (L/N) del ZMPT101B manejan 120V/220V AC. No tocar con el sistema energizado. La salida OUT del módulo es segura (0–3.3V) y se conecta directamente al GPIO ADC del ESP32.</div>
+                    </div>
+
                 </div>
             </section>
 
             <!-- SLIDE: Código -->
             <section class="carousel-slide" id="section-cod">
                 <div class="slide-content">
-                    <div class="section-header"><h3>03. Protocolo Serial</h3><div class="header-line"></div></div>
-                    <div class="protocol-grid">
-                        <div class="code-window">
-                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Comandos → ESP32</span></div>
-                            <pre class="code-block"><code><span class="c-comment">// Comandos enviados por Web Serial</span>
-<span class="c-keyword">START</span>       <span class="c-comment">// Iniciar sesión + crear CSV</span>
-<span class="c-keyword">STOP</span>        <span class="c-comment">// Cerrar sesión</span>
-<span class="c-keyword">LIST</span>        <span class="c-comment">// Listar archivos SD</span>
-<span class="c-keyword">READ</span> nombre <span class="c-comment">// Descargar archivo</span>
-<span class="c-keyword">WAVE_ON</span>     <span class="c-comment">// Activar osciloscopio</span>
-<span class="c-keyword">WAVE_OFF</span>    <span class="c-comment">// Desactivar osciloscopio</span>
-<span class="c-keyword">STATUS</span>      <span class="c-comment">// Estado del sistema</span></code></pre>
+                    <div class="section-header"><h3>03. Código del Firmware</h3><div class="header-line"></div></div>
+                    <p class="slide-intro">El firmware es el programa que corre dentro del ESP32. Está organizado en bloques independientes para que puedas entender cada parte por separado.</p>
+
+                    <!-- Bloque: Configuración -->
+                    <div class="code-edu-block">
+                        <div class="code-edu-header">
+                            <span class="code-edu-num">01</span>
+                            <span class="code-edu-title">Configuración y Calibración</span>
                         </div>
                         <div class="code-window">
-                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Respuestas ← ESP32 (JSON)</span></div>
-                            <pre class="code-block"><code><span class="c-comment">// RMS cada segundo:</span>
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">firmware_esp32s3.ino — Pines y Calibración</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// ── PINES ─────────────────────────────────</span>
+<span class="c-keyword">#define</span> PIN_V  <span class="c-num">5</span>    <span class="c-comment">// GPIO5 → ZMPT101B (ADC1)</span>
+<span class="c-keyword">#define</span> PIN_I  <span class="c-num">4</span>    <span class="c-comment">// GPIO4 → ACS712   (ADC1)</span>
+
+<span class="c-comment">// ── CALIBRACIÓN VOLTAJE ────────────────────</span>
+<span class="c-keyword">const float</span> VOLTAGE_OFFSET = <span class="c-num">1918.0f</span>; <span class="c-comment">// Centro ADC sin señal AC</span>
+<span class="c-keyword">const float</span> VOLTAGE_FACTOR = <span class="c-num">0.19558f</span>; <span class="c-comment">// Escala counts → Voltios</span>
+
+<span class="c-comment">// ── CALIBRACIÓN CORRIENTE ──────────────────</span>
+<span class="c-keyword">const float</span> CURRENT_OFFSET      = <span class="c-num">1942.0f</span>; <span class="c-comment">// Centro ADC sin carga</span>
+<span class="c-keyword">const float</span> CURRENT_SENSITIVITY = <span class="c-num">0.100f</span>;  <span class="c-comment">// ACS712-20A: 100mV/A</span></code></pre>
+                        </div>
+                        <div class="code-edu-explain">
+                            <p> <strong>VOLTAGE_OFFSET</strong>: El ZMPT101B sin señal AC produce exactamente la mitad del voltaje de alimentación en su salida. Este valor (en cuentas ADC) se resta antes de calcular el RMS.</p>
+                            <p> <strong>VOLTAGE_FACTOR</strong>: Factor de escala que convierte el valor numérico del ADC a voltios reales. Se obtiene calibrando con un multímetro.</p>
+                            <p> <strong>CURRENT_SENSITIVITY</strong>: El ACS712-20A produce 100mV por cada Amperio de corriente. Dividir el voltaje medido entre este valor da la corriente en Amperios.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bloque: Muestreo RMS -->
+                    <div class="code-edu-block">
+                        <div class="code-edu-header">
+                            <span class="code-edu-num">02</span>
+                            <span class="code-edu-title">Cálculo de Voltaje y Corriente RMS</span>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">calculateRMS()</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// Tomar 1000 muestras a 1kHz (~1 segundo)</span>
+<span class="c-keyword">for</span> (<span class="c-keyword">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">1000</span>; i++) {
+    <span class="c-keyword">double</span> v = analogRead(PIN_V) - VOLTAGE_OFFSET;
+    <span class="c-keyword">double</span> c = analogRead(PIN_I) - CURRENT_OFFSET;
+    sumV2 += v * v;  <span class="c-comment">// Acumular cuadrados</span>
+    sumI2 += c * c;
+    delayMicroseconds(<span class="c-num">1000</span>);
+}
+<span class="c-comment">// RMS = raíz cuadrada del promedio de cuadrados</span>
+<span class="c-keyword">float</span> vRms = sqrt(sumV2 / <span class="c-num">1000</span>) * VOLTAGE_FACTOR;
+<span class="c-keyword">float</span> iRms = (sqrt(sumI2 / <span class="c-num">1000</span>) * (<span class="c-num">3.3</span>/<span class="c-num">4095.0</span>)) / CURRENT_SENSITIVITY;</code></pre>
+                        </div>
+                        <div class="code-edu-explain">
+                            <p> <strong>¿Por qué RMS?</strong> La corriente alterna cambia de dirección constantemente. Si promedias los valores directamente obtienes cero. El RMS (Root Mean Square) eleva al cuadrado, promedia y saca la raíz — esto da el "valor equivalente en DC" que produce el mismo efecto de calentamiento.</p>
+                            <p> <strong>1kHz de muestreo</strong>: La señal AC es de 60Hz. Para medirla correctamente necesitamos muestrear al menos 2× su frecuencia (Teorema de Nyquist). 1kHz nos da 16 muestras por ciclo — suficiente para un RMS preciso.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bloque: Potencia -->
+                    <div class="code-edu-block">
+                        <div class="code-edu-header">
+                            <span class="code-edu-num">03</span>
+                            <span class="code-edu-title">Cálculo de Potencia</span>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Potencia aparente</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// Potencia aparente en Watts</span>
+<span class="c-keyword">float</span> power = vRms * iRms;
+
+<span class="c-comment">// Umbrales de ruido — evitar lecturas falsas</span>
+<span class="c-keyword">if</span> (vRms &lt; <span class="c-num">10.0f</span>) vRms = <span class="c-num">0.0f</span>;   <span class="c-comment">// Sin red = 0V</span>
+<span class="c-keyword">if</span> (iRms &lt; <span class="c-num">0.08f</span>) iRms = <span class="c-num">0.0f</span>;   <span class="c-comment">// Sin carga = 0A</span></code></pre>
+                        </div>
+                        <div class="code-edu-explain">
+                            <p> <strong>P = V × I</strong>: La potencia se calcula multiplicando el voltaje RMS por la corriente RMS.</p>
+                            <p> <strong>Umbral de ruido</strong>: El ADC siempre tiene pequeñas variaciones aleatorias (ruido). Sin este umbral, el sistema mostraría voltajes o corrientes falsas cuando no hay ninguna carga conectada.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bloque: SD -->
+                    <div class="code-edu-block">
+                        <div class="code-edu-header">
+                            <span class="code-edu-num">04</span>
+                            <span class="code-edu-title">Almacenamiento en MicroSD</span>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Escritura en CSV</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// Crear archivo con nombre único</span>
+<span class="c-keyword">String</span> filename = <span class="c-str">"/session_"</span> + String(millis()) + <span class="c-str">".csv"</span>;
+dataFile = SD.open(filename, FILE_WRITE);
+
+<span class="c-comment">// Escribir encabezado</span>
+dataFile.println(<span class="c-str">"timestamp_ms,voltage_rms,current_rms,power"</span>);
+
+<span class="c-comment">// Cada segundo, guardar una línea</span>
+dataFile.print(millis());      dataFile.print(<span class="c-str">","</span>);
+dataFile.print(vRms, <span class="c-num">2</span>);     dataFile.print(<span class="c-str">","</span>);
+dataFile.print(iRms, <span class="c-num">3</span>);     dataFile.print(<span class="c-str">","</span>);
+dataFile.println(power, <span class="c-num">2</span>);</code></pre>
+                        </div>
+                        <div class="code-edu-explain">
+                            <p> <strong>Formato CSV</strong>: Los datos se guardan en formato CSV (valores separados por coma), que puede abrirse directamente en Excel o Google Sheets.</p>
+                            <p> <strong>Timestamp</strong>: Cada lectura incluye el tiempo en milisegundos desde que arrancó el ESP32, permitiendo reconstruir la línea de tiempo del consumo.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bloque: Comunicación serial -->
+                    <div class="code-edu-block">
+                        <div class="code-edu-header">
+                            <span class="code-edu-num">05</span>
+                            <span class="code-edu-title">Comunicación Serial USB</span>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Protocolo JSON</span></div>
+                            <pre class="code-block"><code><span class="c-comment">// Datos RMS → navegador (cada segundo)</span>
 {<span class="c-str">"type"</span>:<span class="c-str">"rms"</span>, <span class="c-str">"voltage"</span>:<span class="c-num">120.4</span>,
  <span class="c-str">"current"</span>:<span class="c-num">1.32</span>, <span class="c-str">"power"</span>:<span class="c-num">158.9</span>}
 
-<span class="c-comment">// Forma de onda (200 muestras):</span>
-{<span class="c-str">"type"</span>:<span class="c-str">"wave"</span>,
- <span class="c-str">"samples"</span>:[<span class="c-num">512,520,530...</span>]}
+<span class="c-comment">// Osciloscopio (200 muestras ADC)</span>
+{<span class="c-str">"type"</span>:<span class="c-str">"wave"</span>, <span class="c-str">"samples"</span>:[<span class="c-num">512,520,530...</span>]}
 
-<span class="c-comment">// Lista de archivos:</span>
-{<span class="c-str">"type"</span>:<span class="c-str">"list"</span>,
- <span class="c-str">"files"</span>:[{<span class="c-str">"name"</span>:<span class="c-str">"session_01.csv"</span>,
-            <span class="c-str">"size"</span>:<span class="c-num">4096</span>}]}
-
-<span class="c-comment">// Confirmación:</span>
-{<span class="c-str">"type"</span>:<span class="c-str">"ack"</span>, <span class="c-str">"cmd"</span>:<span class="c-str">"START"</span>,
- <span class="c-str">"msg"</span>:<span class="c-str">"session_00042.csv"</span>}</code></pre>
+<span class="c-comment">// Comandos recibidos del navegador</span>
+<span class="c-keyword">START</span>       <span class="c-comment">// Iniciar sesión + crear CSV</span>
+<span class="c-keyword">STOP</span>        <span class="c-comment">// Finalizar sesión</span>
+<span class="c-keyword">WAVE_ON</span>     <span class="c-comment">// Activar osciloscopio</span>
+<span class="c-keyword">LIST</span>        <span class="c-comment">// Listar archivos en SD</span>
+<span class="c-keyword">READ</span> nombre <span class="c-comment">// Enviar archivo al navegador</span></code></pre>
                         </div>
-                        <div class="code-window">
-                            <div class="code-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">Calibración sensores</span></div>
-                            <pre class="code-block"><code><span class="c-comment">// ZMPT101B - ajustar VOLTAGE_FACTOR:</span>
-<span class="c-comment">// 1. Medir con multímetro real: Vreal</span>
-<span class="c-comment">// 2. Ver RMS calculado: Vcalc</span>
-<span class="c-comment">// 3. Factor = VOLTAGE_FACTOR * (Vreal/Vcalc)</span>
-<span class="c-keyword">float</span> VOLTAGE_FACTOR = <span class="c-num">0.2247f</span>;
-
-<span class="c-comment">// ACS712 - offset en cero carga:</span>
-<span class="c-comment">// 1. Sin carga → leer ADC promedio</span>
-<span class="c-comment">// 2. Ese valor = CURRENT_OFFSET (~2048)</span>
-<span class="c-keyword">float</span> CURRENT_OFFSET = <span class="c-num">2048.0f</span>;
-<span class="c-comment">// Sensibilidad: 185mV/A (5A) | 100mV/A (20A)</span></code></pre>
+                        <div class="code-edu-explain">
+                            <p> <strong>JSON</strong>: JavaScript Object Notation — formato de texto estándar para intercambiar datos. El navegador puede leerlo directamente con JavaScript.</p>
+                            <p> <strong>921600 baud</strong>: La velocidad de comunicación USB. Un baud equivale a un bit por segundo — 921600 bps permite enviar datos en tiempo real sin retrasos visibles.</p>
                         </div>
                     </div>
+
                 </div>
             </section>
 
-            <!-- SLIDE: Monitor en Vivo -->
+            <!-- SLIDE: Monitor -->
             <section class="carousel-slide" id="section-mon">
                 <div class="slide-content dashboard-live">
 
-                    <!-- Panel de conexión -->
-                    <div class="connection-panel">
-                        <div class="conn-left">
-                            <button id="btnConnect" class="ctrl-btn connect-btn" onclick="SerialManager.connect()">
-                                CONECTAR ESP32
-                            </button>
-                            <div id="btnDisconnect" class="disconnect-hint hidden">
-                                ⚠ Desconecta el ESP32 físicamente para dejar de monitorear
+                    <!-- Sub-tabs monitor -->
+                    <div class="monitor-tabs">
+                        <div class="monitor-tab-nav">
+                            <button class="mon-tab-btn active" onclick="switchMonTab('live', this)">Monitor en Vivo</button>
+                            <button class="mon-tab-btn" onclick="switchMonTab('help', this)">Como Funciona</button>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Monitor en vivo (funcional - no modificar IDs) -->
+                    <div class="mon-tab-content" id="mon-content-live" data-tab="live">
+
+                        <div class="connection-panel">
+                            <div class="conn-left">
+                                <button id="btnConnect" class="ctrl-btn connect-btn" onclick="SerialManager.connect()">
+                                    CONECTAR ESP32
+                                </button>
+                                <div id="btnDisconnect" class="disconnect-hint hidden">
+                                    ⚠ Desconecta el ESP32 físicamente para dejar de monitorear
+                                </div>
+                            </div>
+                            <div class="conn-center">
+                                <div class="session-controls">
+                                    <button id="btnStart" class="ctrl-btn session-btn" disabled onclick="Session.start()">INICIAR SESION</button>
+                                    <button id="btnStop"  class="ctrl-btn stop-btn"    disabled onclick="Session.stop()">FINALIZAR</button>
+                                </div>
+                                <div class="session-info" id="sessionInfo">Sin sesión activa</div>
+                            </div>
+                            <div class="conn-right">
+                                <button id="btnWaveOn"  class="ctrl-btn wave-btn" disabled onclick="Session.waveOn()">OSCILOSCOPIO ON</button>
+                                <button id="btnWaveOff" class="ctrl-btn wave-off-btn hidden" onclick="Session.waveOff()">OSCILOSCOPIO OFF</button>
                             </div>
                         </div>
-                        <div class="conn-center">
-                            <div class="session-controls">
-                                <button id="btnStart" class="ctrl-btn session-btn" disabled onclick="Session.start()">INICIAR SESION</button>
-                                <button id="btnStop"  class="ctrl-btn stop-btn"    disabled onclick="Session.stop()">FINALIZAR</button>
+
+                        <div class="gauges-panel">
+                            <div class="gauge-wrapper">
+                                <canvas id="gaugeVoltage" width="220" height="140"></canvas>
+                                <div class="gauge-label">VOLTAJE RMS</div>
+                                <div class="gauge-value-display" id="valVoltage">---<span class="gauge-unit">V</span></div>
                             </div>
-                            <div class="session-info" id="sessionInfo">Sin sesión activa</div>
-                        </div>
-                        <div class="conn-right">
-                            <button id="btnWaveOn"  class="ctrl-btn wave-btn" disabled onclick="Session.waveOn()">OSCILOSCOPIO ON</button>
-                            <button id="btnWaveOff" class="ctrl-btn wave-off-btn hidden" onclick="Session.waveOff()">OSCILOSCOPIO OFF</button>
-                        </div>
-                    </div>
-
-                    <!-- KPI Gauges analógicos -->
-                    <div class="gauges-panel">
-                        <div class="gauge-wrapper">
-                            <canvas id="gaugeVoltage" width="220" height="140"></canvas>
-                            <div class="gauge-label">VOLTAJE RMS</div>
-                            <div class="gauge-value-display" id="valVoltage">---<span class="gauge-unit">V</span></div>
-                        </div>
-                        <div class="gauge-wrapper">
-                            <canvas id="gaugeCurrent" width="220" height="140"></canvas>
-                            <div class="gauge-label">CORRIENTE RMS</div>
-                            <div class="gauge-value-display" id="valCurrent">---<span class="gauge-unit">A</span></div>
-                        </div>
-                        <div class="gauge-wrapper">
-                            <canvas id="gaugePower" width="220" height="140"></canvas>
-                            <div class="gauge-label">POTENCIA APARENTE</div>
-                            <div class="gauge-value-display" id="valPower">---<span class="gauge-unit">W</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Osciloscopio -->
-                    <div class="oscilloscope-panel">
-                        <div class="osc-header">
-                            <span class="osc-title">OSCILOSCOPIO — Voltaje Instantáneo</span>
-                            <div class="osc-indicators">
-                                <span class="osc-ind" id="oscFreq">f: 60 Hz</span>
-                                <span class="osc-ind" id="oscRate">Rate: 1kHz</span>
-                                <span class="osc-ind wave-active-dot" id="oscActive">● INACTIVO</span>
+                            <div class="gauge-wrapper">
+                                <canvas id="gaugeCurrent" width="220" height="140"></canvas>
+                                <div class="gauge-label">CORRIENTE RMS</div>
+                                <div class="gauge-value-display" id="valCurrent">---<span class="gauge-unit">A</span></div>
+                            </div>
+                            <div class="gauge-wrapper">
+                                <canvas id="gaugePower" width="220" height="140"></canvas>
+                                <div class="gauge-label">POTENCIA APARENTE</div>
+                                <div class="gauge-value-display" id="valPower">---<span class="gauge-unit">W</span></div>
                             </div>
                         </div>
-                        <div class="osc-container">
-                            <canvas id="oscCanvas"></canvas>
+
+                        <div class="oscilloscope-panel">
+                            <div class="osc-header">
+                                <span class="osc-title">OSCILOSCOPIO — Voltaje Instantáneo</span>
+                                <div class="osc-indicators">
+                                    <span class="osc-ind" id="oscFreq">f: 60 Hz</span>
+                                    <span class="osc-ind" id="oscRate">Rate: 1kHz</span>
+                                    <span class="osc-ind wave-active-dot" id="oscActive">● INACTIVO</span>
+                                </div>
+                            </div>
+                            <div class="osc-container">
+                                <canvas id="oscCanvas"></canvas>
+                            </div>
                         </div>
+
+                        <div class="serial-log-panel">
+                            <div class="log-header">
+                                <span>SERIAL LOG</span>
+                                <button class="log-clear-btn" onclick="clearLog()">LIMPIAR</button>
+                            </div>
+                            <div class="serial-log" id="serialLog"></div>
+                        </div>
+
                     </div>
 
-                    <!-- Log serial -->
-                    <div class="serial-log-panel">
-                        <div class="log-header">
-                            <span>SERIAL LOG</span>
-                            <button class="log-clear-btn" onclick="clearLog()">LIMPIAR</button>
-                        </div>
-                        <div class="serial-log" id="serialLog"></div>
-                    </div>
+                    <!-- TAB: Cómo funciona -->
+                    <div class="mon-tab-content" id="mon-content-help" data-tab="help" style="display:none">
+                        <div class="help-grid">
 
+                            <div class="help-card">
+                                <h4>Botón CONECTAR ESP32</h4>
+                                <p>Abre el diálogo del navegador para seleccionar el puerto USB al que está conectado el ESP32. Requiere Google Chrome o Microsoft Edge. Una vez conectado, los datos llegan automáticamente.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Iniciar Sesión</h4>
+                                <p>Crea un nuevo archivo CSV en la microSD y empieza a guardar las lecturas de voltaje, corriente y potencia segundo a segundo. La sesión continúa hasta que presiones FINALIZAR.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Finalizar Sesión</h4>
+                                <p>Cierra el archivo CSV en la microSD y detiene el registro. Los datos quedan guardados y pueden consultarse en la pestaña Datos & Estadísticas.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Medidor de Voltaje</h4>
+                                <p>Muestra el voltaje RMS de la red eléctrica en tiempo real. En Colombia la red es de ~120V. Si no hay red conectada al sensor, muestra 0V.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Medidor de Corriente</h4>
+                                <p>Muestra la corriente RMS que consume la carga conectada al ACS712. Sin carga, muestra 0A. A mayor consumo del dispositivo conectado, mayor corriente.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Medidor de Potencia</h4>
+                                <p>Muestra los Watts consumidos (P = V × I). Una bombilla de 60W mostraría ~60W. Una estufa eléctrica puede mostrar 1000W o más.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Osciloscopio</h4>
+                                <p>Muestra la forma de onda del voltaje en tiempo real — la señal senoidal de la red eléctrica. Debes activarlo con el botón OSCILOSCOPIO ON. Útil para verificar que la señal es limpia y sin distorsiones.</p>
+                            </div>
+
+                            <div class="help-card">
+                                <h4>Serial Log</h4>
+                                <p>Registro de toda la comunicación entre el navegador y el ESP32. Muestra los mensajes JSON recibidos, los comandos enviados y los errores del sistema. Útil para diagnóstico.</p>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
             </section>
@@ -303,7 +700,6 @@
 
             <div class="data-main-grid-new">
 
-                <!-- Lista de archivos -->
                 <div class="files-panel">
                     <div class="panel-title">ARCHIVOS EN MICROSD</div>
                     <div class="file-list" id="fileList">
@@ -311,7 +707,6 @@
                     </div>
                 </div>
 
-                <!-- 3 Gráficas -->
                 <div class="charts-column">
 
                     <div class="chart-panel">
@@ -352,8 +747,71 @@
             </div>
         </div>
     </main>
-    
-    <script src="main.js" defer></script>
 
+    <script src="main.js" defer></script>
+    <script>
+    function switchMonTab(tab, btn) {
+        document.querySelectorAll('.mon-tab-content').forEach(el => {
+            el.style.display = el.dataset.tab === tab ? '' : 'none';
+        });
+        document.querySelectorAll('.mon-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    </script>
+
+    <script>
+    // Gráficas educativas de ondas AC — pestaña introducción
+    window.addEventListener('DOMContentLoaded', () => {
+        const pts = 200;
+        const labels = Array.from({length: pts}, (_, i) => (i / pts * 2).toFixed(2));
+
+        // Gráfica 1: Onda de voltaje senoidal
+        const vData = Array.from({length: pts}, (_, i) => Math.sin(2 * Math.PI * i / (pts / 2)) * 170);
+        new Chart(document.getElementById('chartVoltageWave'), {
+            type: 'line',
+            data: { labels, datasets: [{
+                label: 'Voltaje (V)', data: vData,
+                borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.06)',
+                borderWidth: 2, pointRadius: 0, fill: true, tension: 0
+            }]},
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { title: { display: true, text: 'Tiempo (ciclos)', color: '#6b7280' },
+                         ticks: { color: '#4a5568', maxTicksLimit: 10 }, grid: { color: '#1f2937' } },
+                    y: { title: { display: true, text: 'Voltaje (V)', color: '#6b7280' },
+                         ticks: { color: '#4a5568' }, grid: { color: '#1f2937' } }
+                }
+            }
+        });
+
+        // Gráfica 2: Voltaje + Corriente con desfase
+        const iData = Array.from({length: pts}, (_, i) => Math.sin(2 * Math.PI * i / (pts / 2) - 0.5) * 10);
+        const vData2 = Array.from({length: pts}, (_, i) => Math.sin(2 * Math.PI * i / (pts / 2)) * 170);
+        new Chart(document.getElementById('chartVIWave'), {
+            type: 'line',
+            data: { labels, datasets: [
+                { label: 'Voltaje (V)', data: vData2,
+                  borderColor: '#3b82f6', backgroundColor: 'transparent',
+                  borderWidth: 2, pointRadius: 0, tension: 0, yAxisID: 'yV' },
+                { label: 'Corriente (A)', data: iData,
+                  borderColor: '#22c55e', backgroundColor: 'transparent',
+                  borderWidth: 2, pointRadius: 0, tension: 0, yAxisID: 'yI' }
+            ]},
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { color: '#4a5568', maxTicksLimit: 10 }, grid: { color: '#1f2937' } },
+                    yV: { position: 'left',  title: { display: true, text: 'V', color: '#3b82f6' },
+                          ticks: { color: '#3b82f6' }, grid: { color: '#1f2937' } },
+                    yI: { position: 'right', title: { display: true, text: 'A', color: '#22c55e' },
+                          ticks: { color: '#22c55e' }, grid: { drawOnChartArea: false } }
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html>
