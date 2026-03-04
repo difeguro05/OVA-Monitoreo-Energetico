@@ -146,8 +146,8 @@
                             <div class="sensor-info"><h4>Conexiones ESP32-S3</h4></div>
                             <div class="pinout-table">
                                 <div class="pin-row header-row"><span>Componente</span><span>Pin ESP32-S3</span><span>Función</span></div>
-                                <div class="pin-row"><span class="pin-comp">ZMPT101B</span><span class="pin-num">GPIO1 (ADC)</span><span class="pin-fn">Voltaje AC</span></div>
-                                <div class="pin-row"><span class="pin-comp">ACS712</span><span class="pin-num">GPIO2 (ADC)</span><span class="pin-fn">Corriente</span></div>
+                                <div class="pin-row"><span class="pin-comp">ZMPT101B Out</span><span class="pin-num">GPIO5 (ADC)</span><span class="pin-fn">Voltaje AC</span></div>
+                                <div class="pin-row"><span class="pin-comp">ACS712 Out</span><span class="pin-num">GPIO4 (ADC)</span><span class="pin-fn">Corriente</span></div>
                                 <div class="pin-row"><span class="pin-comp">MicroSD CS</span><span class="pin-num">GPIO10</span><span class="pin-fn">SPI CS</span></div>
                                 <div class="pin-row"><span class="pin-comp">MicroSD SCK</span><span class="pin-num">GPIO12</span><span class="pin-fn">SPI CLK</span></div>
                                 <div class="pin-row"><span class="pin-comp">MicroSD MOSI</span><span class="pin-num">GPIO11</span><span class="pin-fn">SPI Data Out</span></div>
@@ -155,7 +155,7 @@
                                 <div class="pin-row"><span class="pin-comp">GND común</span><span class="pin-num">GND</span><span class="pin-fn">Referencia</span></div>
                                 <div class="pin-row"><span class="pin-comp">Vcc sensores</span><span class="pin-num">3.3V</span><span class="pin-fn">Alimentación</span></div>
                             </div>
-                            <div class="warning-box">⚠ ZMPT101B requiere circuito divisor. Nunca conectar AC directamente al GPIO.</div>
+                            <div class="warning-box">⚠ ESP32 trabaja a 3.3v, no conectar niveles de tension superiores. Nunca conectar AC directamente al GPIO.</div>
                         </div>
                     </div>
                 </div>
